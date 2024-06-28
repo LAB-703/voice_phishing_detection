@@ -2,10 +2,10 @@ import streamlit as st
 import os
 import openai
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-voice_file_path = "audio_data/fraud_1.mp3"
-voice_file = open(voice_file_path, "rb")
-transcription = openai.Audio.transcribe("whisper-1", voice_file)
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+# voice_file_path = "audio_data/fraud_1.mp3"
+# voice_file = open(voice_file_path, "rb")
+# transcription = openai.Audio.transcribe("whisper-1", voice_file)
 
  
 
@@ -75,8 +75,6 @@ type_choice = st.selectbox("Select type", type_options)
 num_choice = st.selectbox("Select number", num_options)
 
 if openai_api_key:
-    client = OpenAI(api_key=openai_api_key)
-    
     if st.button("Analyze"):
         with st.spinner("Transcribing and analyzing the audio..."):
             voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
