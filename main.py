@@ -1,7 +1,12 @@
 import streamlit as st
 import os
 from openai import OpenAI
+import openai
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
+voice_file_path = "audio_data/fraud_1.mp3"
+voice_file = open(voice_file_path, "rb")
+transcription = openai.Audio.transcribe("whisper-1", voice_file)
 
  
 
@@ -78,7 +83,7 @@ if openai_api_key:
             voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
             if os.path.exists(voice_file_path):
                 voice_file = open(voice_file_path, "rb")
-                transcription = client.Audio.transcribe("whisper-1", voice_file)
+                transcription = openai.Audio.transcribe("whisper-1", voice_file)
 
                 prompt = f"""
                 아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
@@ -88,7 +93,7 @@ if openai_api_key:
                 {manual}
 
                 [통화 내용]
-                {transcription['text']}
+                {transcription.text}
                 """
 
                 response = openai.ChatCompletion.create(
