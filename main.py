@@ -78,7 +78,7 @@ if openai_api_key:
             voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
             if os.path.exists(voice_file_path):
                 voice_file = open(voice_file_path, "rb")
-                transcription = openai.Audio.transcribe("whisper-1", voice_file)
+                transcription = client.Audio.transcribe("whisper-1", voice_file)
 
                 prompt = f"""
                 아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
