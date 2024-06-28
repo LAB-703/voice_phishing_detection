@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import openai
 
-st.set_page_config(page_title="Voice Phishing Detection", layout="wide", page_icon="🎣")
+st.set_page_config(page_title="Voice Phishing Detection", layout="wide", page_icon=":fishing_pole_and_fish:")
 
 manual = '''
 https://fss.or.kr/fss/vstop/PO-vstop.jsp
