@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import openai
 
-st.set_page_config(page_title="🎣 Voice Phishing Detection", layout="wide")
+st.set_page_config(page_title="Voice Phishing Detection", layout="wide")
 
 manual = '''
 1. 기존 수법 예방수칙
@@ -58,11 +58,11 @@ manual = '''
 # 페이지 선택
 page = st.sidebar.selectbox("Choose a page", ["Manual", "Analyze"])
 
-if page == "📋 Manual":
+if page == "Manual":
     st.title("Voice Phishing Prevention Manual")
     st.write(manual)
     
-elif page == "🚨 Analyze":
+elif page == "Analyze":
     st.title("Voice Phishing Detection and Prevention")
     
     st.sidebar.write("Enter your OpenAI API key:")
