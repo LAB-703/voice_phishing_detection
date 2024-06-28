@@ -5,6 +5,7 @@ import openai
 st.set_page_config(page_title="Voice Phishing Detection", layout="wide")
 
 manual = '''
+https://fss.or.kr/fss/vstop/PO-vstop.jsp
 1. 기존 수법 예방수칙
     1. 기관사칭
     수사기관·금융기관이라며 자금 이체나 금융정보 요구하면, 100% 보이스피싱 
