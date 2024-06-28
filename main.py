@@ -56,10 +56,10 @@ manual = '''
 ※ 조치순서 : 지급정지 신청(금융회사) → 피해신고(112) → 피해금 환급신청(금융회사)
 '''
 
-st.title("Voice Phishing Detection and Prevention")
+st.title("Voice Phishing Detection System")
 
 st.write("Enter your OpenAI API key:")
-api_key = st.text_input(placeholder = "sk-XXXXXXXXXXX", type="password")
+api_key = st.text_input("", placeholder = "sk-XXXXXXXXXXX", type="password")
 
 st.write("Choose the type and number of the audio sample to analyze.")
 
