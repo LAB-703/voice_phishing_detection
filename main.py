@@ -104,7 +104,7 @@ elif page == "🚨 Analyze":
                     )
                     
                     st.subheader("Transcription")
-                    st.expander(transcription['text'])
+                    st.write(transcription['text'])
                     
                     st.subheader("Response")
                     st.write(response["choices"][0]["message"]["content"])
