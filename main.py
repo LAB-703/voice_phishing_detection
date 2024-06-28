@@ -104,7 +104,7 @@ elif page == "Analyze":
                     )
                     
                     st.subheader("Transcription")
-                    with st.expander('') :
+                    with st.expander('See more', expanded = True) :
                         st.write(transcription['text'])
                     
                     st.subheader("Response")
