@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import openai
 
-st.set_page_config(page_title="Voice Phishing Detection", layout="wide", icon="🎣")
+st.set_page_config(page_title="Voice Phishing Detection", layout="wide", page_icon="🎣")
 
 manual = '''
 https://fss.or.kr/fss/vstop/PO-vstop.jsp
@@ -59,12 +59,12 @@ https://fss.or.kr/fss/vstop/PO-vstop.jsp
 # 페이지 선택
 page = st.sidebar.selectbox("Choose a page", ["Manual", "Analyze"])
 
-if page == "Manual":
-    st.title("Voice Phishing Prevention Manual")
+if page == "📋 Manual":
+    st.title("📋 Voice Phishing Prevention Manual")
     st.markdown(manual)
     
-elif page == "Analyze":
-    st.title("Voice Phishing Detection")
+elif page == "🚨 Analyze":
+    st.title("🚨 Voice Phishing Detection")
     
     st.sidebar.write("Enter your OpenAI API key:")
     api_key = st.sidebar.text_input("API Key", placeholder="sk-XXXXXXXXXXXXXXX", type="password")
