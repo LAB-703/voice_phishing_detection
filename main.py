@@ -66,7 +66,7 @@ elif page == "Analyze":
     st.title("Voice Phishing Detection")
     
     st.sidebar.write("Enter your OpenAI API key:")
-    api_key = st.sidebar.text_input("API Key", type="password")
+    api_key = st.sidebar.text_input("API Key", placeholder="sk-XXXXXXXXXXXXXXX", type="password")
     
     type_options = ["fraud", "imperson"]
     num_options = [1, 2, 3, 4, 5]
