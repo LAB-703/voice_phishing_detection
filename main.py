@@ -70,7 +70,7 @@ st.write("Choose the type and number of the audio sample to analyze.")
 type_choice = st.selectbox("Select type", type_options)
 num_choice = st.selectbox("Select number", num_options)
 
-if api_key:
+if openai_api_key:
     client = OpenAI(api_key=openai_api_key)
     
     if st.button("Analyze"):
