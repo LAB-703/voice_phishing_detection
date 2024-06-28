@@ -60,7 +60,7 @@ page = st.sidebar.selectbox("Choose a page", ["Manual", "Analyze"])
 
 if page == "Manual":
     st.title("Voice Phishing Prevention Manual")
-    st.write(manual)
+    st.markdown(manual)
     
 elif page == "Analyze":
     st.title("Voice Phishing Detection")
