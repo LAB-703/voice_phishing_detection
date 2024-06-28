@@ -75,8 +75,8 @@ elif page == "Analyze":
         openai.api_key = api_key
         st.sidebar.write("Choose the type and number of the audio sample to analyze.")
         
-        type_choice = st.sidebar.selectbox("Select type", type_options)
-        num_choice = st.sidebar.selectbox("Select number", num_options)
+        type_choice = st.sidebar.radio("Select type", type_options)
+        num_choice = st.sidebar.radio("Select number", num_options)
         
         if st.sidebar.button("Analyze"):
             voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
