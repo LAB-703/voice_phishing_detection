@@ -2,8 +2,6 @@ import streamlit as st
 import os
 import openai
 
-openai.api_key = st.text_input('sk-XXXXX')
-
 type_options = ["fraud", "imperson"]
 num_options = [1, 2, 3, 4, 5]
 
@@ -60,40 +58,47 @@ manual = '''
 
 st.title("Voice Phishing Detection and Prevention")
 
-st.write("Choose the type and number of the audio sample to analyze.")
+st.write("Enter your OpenAI API key:")
+api_key = st.text_input("sk-XXX", type="password")
 
-type_choice = st.selectbox("Select type", type_options)
-num_choice = st.selectbox("Select number", num_options)
+if api_key:
+    openai.api_key = api_key
+    st.write("Choose the type and number of the audio sample to analyze.")
 
-if st.button("Analyze"):
-    with st.spinner("Transcribing and analyzing the audio..."):
-        voice_file_path = f"기말고사/audio_data/{type_choice}_{num_choice}.mp3"
-        if os.path.exists(voice_file_path):
-            voice_file = open(voice_file_path, "rb")
-            transcription = openai.Audio.transcribe("whisper-1", voice_file)
+    type_choice = st.selectbox("Select type", type_options)
+    num_choice = st.selectbox("Select number", num_options)
 
-            prompt = f"""
-            아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
-            그에 적절한 대처 방안을 단계별로 알려주시오.
+    if st.button("Analyze"):
+        with st.spinner("Transcribing and analyzing the audio..."):
+            voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
+            if os.path.exists(voice_file_path):
+                voice_file = open(voice_file_path, "rb")
+                transcription = openai.Audio.transcribe("whisper-1", voice_file)
 
-            [매뉴얼]
-            {manual}
+                prompt = f"""
+                아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
+                그에 적절한 대처 방안을 단계별로 알려주시오.
 
-            [통화 내용]
-            {transcription['text']}
-            """
+                [매뉴얼]
+                {manual}
 
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "user", "content": prompt}
-                ]
-            )
+                [통화 내용]
+                {transcription['text']}
+                """
 
-            st.subheader("Transcription")
-            st.write(transcription['text'])
+                response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "user", "content": prompt}
+                    ]
+                )
 
-            st.subheader("Response")
-            st.write(response["choices"][0]["message"]["content"])
-        else:
-            st.error("Audio file not found. Please check the file path.")
+                st.subheader("Transcription")
+                st.write(transcription['text'])
+
+                st.subheader("Response")
+                st.write(response["choices"][0]["message"]["content"])
+            else:
+                st.error("Audio file not found. Please check the file path.")
+else:
+    st.warning("Please enter your OpenAI API key to proceed.")
