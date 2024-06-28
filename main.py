@@ -81,6 +81,7 @@ elif page == "Analyze":
         if st.sidebar.button("Analyze"):
             with st.spinner("Transcribing and analyzing the audio..."):
                 voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
+                st.audio(voice_file_path)
                 if os.path.exists(voice_file_path):
                     voice_file = open(voice_file_path, "rb")
                     transcription = openai.Audio.transcribe("whisper-1", voice_file)
