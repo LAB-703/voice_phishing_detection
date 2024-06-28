@@ -60,10 +60,10 @@ page = st.sidebar.selectbox("Choose a page", ["Manual", "Analyze"])
 
 if page == "Manual":
     st.title("Voice Phishing Prevention Manual")
-    st.write(manual)
+    st.markdown(manual)
     
 elif page == "Analyze":
-    st.title("Voice Phishing Detection and Prevention")
+    st.title("Voice Phishing Detection")
     
     st.sidebar.write("Enter your OpenAI API key:")
     api_key = st.sidebar.text_input("API Key", type="password")
@@ -104,7 +104,7 @@ elif page == "Analyze":
                     )
                     
                     st.subheader("Transcription")
-                    st.write(transcription['text'])
+                    st.expander(transcription['text'])
                     
                     st.subheader("Response")
                     st.write(response["choices"][0]["message"]["content"])
