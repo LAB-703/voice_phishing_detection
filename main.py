@@ -2,15 +2,7 @@ import streamlit as st
 import os
 import openai
 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-# voice_file_path = "audio_data/fraud_1.mp3"
-# voice_file = open(voice_file_path, "rb")
-# transcription = openai.Audio.transcribe("whisper-1", voice_file)
-
- 
-
-type_options = ["fraud", "imperson"]
-num_options = [1, 2, 3, 4, 5]
+st.set_page_config(page_title="Voice Phishing Detection", layout="wide")
 
 manual = '''
 1. 기존 수법 예방수칙
@@ -63,49 +55,60 @@ manual = '''
 ※ 조치순서 : 지급정지 신청(금융회사) → 피해신고(112) → 피해금 환급신청(금융회사)
 '''
 
-st.title("Voice Phishing Detection System")
+# 페이지 선택
+page = st.sidebar.selectbox("Choose a page", ["Manual", "Analyze"])
 
-with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", placeholder = "sk-XXXXXXXXXXX", type="password")
+if page == "Manual":
+    st.title("Voice Phishing Prevention Manual")
+    st.write(manual)
+    
+elif page == "Analyze":
+    st.title("Voice Phishing Detection and Prevention")
+    
+    st.sidebar.write("Enter your OpenAI API key:")
+    api_key = st.sidebar.text_input("API Key", type="password")
+    
+    type_options = ["fraud", "imperson"]
+    num_options = [1, 2, 3, 4, 5]
+    
+    if api_key:
+        openai.api_key = api_key
+        st.sidebar.write("Choose the type and number of the audio sample to analyze.")
+        
+        type_choice = st.sidebar.selectbox("Select type", type_options)
+        num_choice = st.sidebar.selectbox("Select number", num_options)
+        
+        if st.sidebar.button("Analyze"):
+            with st.spinner("Transcribing and analyzing the audio..."):
+                voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
+                if os.path.exists(voice_file_path):
+                    voice_file = open(voice_file_path, "rb")
+                    transcription = openai.Audio.transcribe("whisper-1", voice_file)
+                    
+                    prompt = f"""
+                    아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
+                    그에 적절한 대처 방안을 단계별로 알려주시오.
 
+                    [매뉴얼]
+                    {manual}
 
-st.write("Choose the type and number of the audio sample to analyze.")
-
-type_choice = st.selectbox("Select type", type_options)
-num_choice = st.selectbox("Select number", num_options)
-
-if openai_api_key:
-    if st.button("Analyze"):
-        with st.spinner("Transcribing and analyzing the audio..."):
-            voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
-            if os.path.exists(voice_file_path):
-                voice_file = open(voice_file_path, "rb")
-                transcription = openai.Audio.transcribe("whisper-1", voice_file)
-
-                prompt = f"""
-                아래 보이스피싱 관련 [매뉴얼]을 보고, [통화 내용]에 대한 보이스 피싱 유형을 분류하시오.
-                그에 적절한 대처 방안을 단계별로 알려주시오.
-
-                [매뉴얼]
-                {manual}
-
-                [통화 내용]
-                {transcription.text}
-                """
-
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "user", "content": prompt}
-                    ]
-                )
-
-                st.subheader("Transcription")
-                st.write(transcription['text'])
-
-                st.subheader("Response")
-                st.write(response["choices"][0]["message"]["content"])
-            else:
-                st.error("Audio file not found. Please check the file path.")
-else:
-    st.warning("Please enter your OpenAI API key to proceed.")
+                    [통화 내용]
+                    {transcription['text']}
+                    """
+                    
+                    response = openai.ChatCompletion.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                            {"role": "user", "content": prompt}
+                        ]
+                    )
+                    
+                    st.subheader("Transcription")
+                    st.write(transcription['text'])
+                    
+                    st.subheader("Response")
+                    st.write(response["choices"][0]["message"]["content"])
+                else:
+                    st.error("Audio file not found. Please check the file path.")
+    else:
+        st.warning("Please enter your OpenAI API key to proceed.")
