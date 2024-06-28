@@ -59,15 +59,16 @@ manual = '''
 st.title("Voice Phishing Detection and Prevention")
 
 st.write("Enter your OpenAI API key:")
-api_key = st.text_input("sk-XXX", type="password")
+api_key = st.text_input(placeholder = "sk-XXXXXXXXXXX", type="password")
+
+st.write("Choose the type and number of the audio sample to analyze.")
+
+type_choice = st.selectbox("Select type", type_options)
+num_choice = st.selectbox("Select number", num_options)
 
 if api_key:
     openai.api_key = api_key
-    st.write("Choose the type and number of the audio sample to analyze.")
-
-    type_choice = st.selectbox("Select type", type_options)
-    num_choice = st.selectbox("Select number", num_options)
-
+    
     if st.button("Analyze"):
         with st.spinner("Transcribing and analyzing the audio..."):
             voice_file_path = f"audio_data/{type_choice}_{num_choice}.mp3"
