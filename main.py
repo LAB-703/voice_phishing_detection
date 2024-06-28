@@ -1,6 +1,9 @@
 import streamlit as st
 import os
-import openai
+from openai import OpenAI
+
+
+ 
 
 type_options = ["fraud", "imperson"]
 num_options = [1, 2, 3, 4, 5]
@@ -58,8 +61,9 @@ manual = '''
 
 st.title("Voice Phishing Detection System")
 
-st.write("Enter your OpenAI API key:")
-api_key = st.text_input("", placeholder = "sk-XXXXXXXXXXX", type="password")
+with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API Key", placeholder = "sk-XXXXXXXXXXX", type="password")
+
 
 st.write("Choose the type and number of the audio sample to analyze.")
 
@@ -67,7 +71,7 @@ type_choice = st.selectbox("Select type", type_options)
 num_choice = st.selectbox("Select number", num_options)
 
 if api_key:
-    openai.api_key = api_key
+    client = OpenAI(api_key=openai_api_key)
     
     if st.button("Analyze"):
         with st.spinner("Transcribing and analyzing the audio..."):
